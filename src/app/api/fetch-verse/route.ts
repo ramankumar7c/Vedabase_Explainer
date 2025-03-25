@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 
-// Mock data - replace with actual Vedabase API calls
 const mockVerses: Record<string, string> = {
   "SB 1.1.1": "dharmaḥ projjhita-kaitavo 'tra paramo nirmatsarāṇāṁ satām...",
   "SB 1.1.2": "dharmaḥ projjhita-kaitavo 'tra paramo nirmatsarāṇāṁ satām...",
@@ -19,11 +18,9 @@ export async function GET(request: Request) {
   }
 
   try {
-    // In a real implementation, you would fetch from Vedabase API here
     const verseText = mockVerses[verse] || "Verse text not found in mock data"
-    
     return NextResponse.json({ verseText })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch verse" },
       { status: 500 }
