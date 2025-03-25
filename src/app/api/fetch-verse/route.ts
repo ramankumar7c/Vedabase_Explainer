@@ -23,8 +23,6 @@ export async function GET(request: Request) {
     const verseText = mockVerses[verse] || "Verse text not found in mock data"
     
     return NextResponse.json({ verseText })
-    
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch verse" },
