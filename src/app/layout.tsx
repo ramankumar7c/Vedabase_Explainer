@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "VedaBase Simplified Explorer",
-  description: "Get simple explanations for Srimad Bhagavatam verses",
+  description: "Get simplified explanations of Srimad Bhagavatam verses using AI",
 }
 
 export default function RootLayout({
