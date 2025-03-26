@@ -4,9 +4,8 @@ Vedabase Explainer is a web application that provides simplified explanations of
 
 ## Features
 
-- Enter verse number and text to get explanations
+- Enter verse to get explanations
 - Simple, clean UI with responsive design
-- Error handling and loading indicators
 
 ## Tech Stack
 
