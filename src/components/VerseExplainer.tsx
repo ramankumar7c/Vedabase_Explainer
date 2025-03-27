@@ -78,7 +78,7 @@ export function VerseExplainer() {
             className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-amber-500 text-black ${
               errors.verse ? "border-red-500" : "border-gray-300"
             }`}
-            placeholder="e.g., BG 2.13"
+            placeholder="Enter Bhagvada Gita Verse"
             disabled={isLoading}
           />
           {errors.verse && (
