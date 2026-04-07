@@ -48,7 +48,22 @@ export function VerseExplainer() {
       
       if (!explanationRes.ok) {
         const errorData: ApiResponse = await explanationRes.json()
-        throw new Error(errorData.error || "Explanation request failed")
+        let errorMessage = errorData.error || `Explanation request failed (${explanationRes.status})`
+        
+        // Handle rate limit errors specifically
+        if (explanationRes.status === 429) {
+          // Only append retry info if not already in the error message
+          const retryAfter = explanationRes.headers.get('Retry-After')
+          const hasRetryInfo = errorMessage.toLowerCase().includes('try again')
+          
+          if (retryAfter && !hasRetryInfo) {
+            errorMessage += ` Please try again in ${retryAfter} seconds.`
+          } else if (!hasRetryInfo) {
+            errorMessage += " Please try again later."
+          }
+        }
+        
+        throw new Error(errorMessage)
       }
 
       const result: ApiResponse = await explanationRes.json()

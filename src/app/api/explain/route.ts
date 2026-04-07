@@ -15,10 +15,39 @@ export async function POST(request: Request) {
     const explanation = await generateExplanation(verse, verseText)
     return NextResponse.json({ explanation })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch (error: unknown) {
+    // Handle quota/rate limit errors with proper status code
+    if (error && typeof error === 'object' && 'statusCode' in error) {
+      const apiError = error as { statusCode: number; message?: string; retryAfter?: number | null };
+      
+      if (apiError.statusCode === 429) {
+        return NextResponse.json(
+          { error: apiError.message || "API rate limit exceeded. Please try again later." },
+          { 
+            status: 429,
+            headers: apiError.retryAfter 
+              ? { 'Retry-After': apiError.retryAfter.toString() }
+              : undefined
+          }
+        )
+      }
+      
+      // Handle 400 Bad Request errors
+      if (apiError.statusCode === 400) {
+        return NextResponse.json(
+          { error: apiError.message || "Invalid request. Please check your input and try again." },
+          { status: 400 }
+        )
+      }
+    }
+
+    // For other errors, return 500 with the error message
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : "Internal server error"
+    
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     )
   }
